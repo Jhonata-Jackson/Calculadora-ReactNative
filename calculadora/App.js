@@ -40,12 +40,14 @@ export default class App extends React.Component {
     state = {...initialState }
 
     addDigit = n => {
-      if (n === '.' &&  this.state.displayValue.includes('.')) {
-        return
-      }
-
       const clearDisplay = this.state.displayValue === '0'
         || this.state.clearDisplay
+      
+      if (n === '.' && !clearDisplay
+      &&  this.state.displayValue.includes('.')) {
+          return
+        }
+
       const currentValue = clearDisplay ? '' : this.state.displayValue
       const displayValue = currentValue + n
       this.setState({ displayValue, clearDisplay: false})
@@ -77,7 +79,7 @@ export default class App extends React.Component {
 
         values[1] = 0
         this.setState({
-          displayValue: values[0],
+          displayValue: `${values[0]}`,
           operation: equals ? null : operation,
           current: equals ? 0 : 1,
           clearDiplay: !equals,
@@ -99,7 +101,7 @@ render() {
           <Button label='4' onClick={this.addDigit} />
           <Button label='5' onClick={this.addDigit} />
           <Button label='6' onClick={this.addDigit} />
-          <Button label='-' operation onClick={() => this.setOperation} />
+          <Button label='-' operation onClick={this.setOperation} />
           <Button label='1' onClick={this.addDigit} />
           <Button label='2' onClick={this.addDigit} />
           <Button label='3' onClick={this.addDigit} />
